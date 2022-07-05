@@ -14,3 +14,16 @@ services:
     volumes:
       - ./docker/mongodata:/data/db
     command: --auth
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    container_name: rabbitmq_pizza
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USERNAME:-pizza}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS:-pizza}
+    ports:
+      - ${MQ_PORT:-5672}:5672
+      - ${MQ_PORT:-15672}:15672
+    volumes:
+      - ./docker/rabbitmq:/var/lib/rabbitmq
+    
