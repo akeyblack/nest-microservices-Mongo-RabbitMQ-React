@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:4.2
+    restart: always
+    container_name: mongo_pizza
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME:-pizza}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD:-pizza} 
+      MONGO_INITDB_DATABASE: ${DB_NAME:-pizza}
+    ports:
+      - ${DB_PORT:-27017}:27017
+    volumes:
+      - ./docker/mongodata:/data/db
+    command: --auth
