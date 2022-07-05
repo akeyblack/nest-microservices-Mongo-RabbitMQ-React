@@ -14,7 +14,7 @@ function MenuItem(props) {
     };
 
     function onCartAdd () {
-        props.addCartItem({id: props.item.id, size});
+        props.addCartItem({id: props.item.id, name: props.item.name, size});
     }
 
     function sizeChoice() {

@@ -6,7 +6,6 @@ const defaultState = {
     cart: [],
     cartSum: 0,
     deliveryType: false,
-    telegram: "",
     deliveryCost: 50,
     moneyType: false,
     deliveryInfo: {
@@ -38,10 +37,11 @@ export const cartReducer = (state = defaultState,action) => {
             if (!state.items.find(array => array.find(x=>x.id===action.payload.id)))
                 return state;
             else {
-                if (cart.find(value => (value.id===action.payload.id && value.size===action.payload.size)))
-                    cart.find(value => (value.id===action.payload.id && value.size===action.payload.size)).count++;
+                const findWithIdAndSize = cart.find(value => (value.id===action.payload.id && value.size===action.payload.size));
+                if (findWithIdAndSize)
+                    findWithIdAndSize.count++;
                 else 
-                    cart.push({id:action.payload.id, size:action.payload.size, count: 1});
+                    cart.push({id:action.payload.id, name: action.payload.name, size:action.payload.size, count: 1});
                 return {
                     ...state,
                     cart,

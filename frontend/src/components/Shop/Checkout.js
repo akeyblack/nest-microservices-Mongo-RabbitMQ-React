@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {connect} from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, useHistory } from 'react-router-dom';
 import config from '../../config';
 
 import {setMoneyType, setDeliveryInfo} from '../../store/Cart/actions'
@@ -11,15 +11,19 @@ function Checkout (props) {
         props.setMoneyType(!props.moneyType);
     }
 
+    const history = useHistory();
+
+    const [errorState, setErrorState] = useState(false);
+
     const [delInfo, setDelInfo] = useState({
-        telegram: "",
-        firstName: "",
-        lastName: "",
-        address: "",
-        phone: "",
-        companyName: "",
-        email: "",
-        notes: "",
+        telegram: " ",
+        firstName: " ",
+        lastName: " ",
+        address: " ",
+        phone: " ",
+        companyName: " ",
+        email: " ",
+        notes: " ",
     });
 
     const sendToServer = () => {
@@ -42,11 +46,11 @@ function Checkout (props) {
             },
             body: JSON.stringify(body)
         }
-            fetch(
-                url, metaData
-            ).then(res => console.log(res)
-            ).catch(e => console.log(e)
-            );
+            fetch(url, metaData)
+            .then(res => {
+                res.status < 300 ? history.push("/shop/complete"): setErrorState(true);
+            })
+            .catch(e => console.log(e));
     }
 
 
@@ -54,13 +58,13 @@ function Checkout (props) {
         {Boolean(! props.cartSum) && <Redirect to="/home/"/>}
         <div className="checkout__left">
             <h2>Delivery Address</h2>
+            {errorState ? <div className="checkout__error">Check your * fields</div> : ""}
             <form>
                 <div className="checkout__input" style={{width: "48%"}}>
                     <label htmlFor="checkoutFirstName">First name*</label>
-                    <input id="checkoutFirstName" onChange={
-                        e => {
-                            console.log("LOG+ " + delInfo.firstName); setDelInfo({...delInfo, firstName: e.target.value})
-                    }} type="text"/>
+                    <input required id="checkoutFirstName" onChange={
+                        e => setDelInfo({...delInfo, firstName: e.target.value})
+                    } type="text"/>
                 </div>
                 <div className="checkout__input" style={{width: "48%"}}>
                     <label htmlFor="checkoutLastName">Last name*</label>
@@ -141,7 +145,7 @@ function Checkout (props) {
                         <label htmlFor="emoney">eMoney</label>
                     </section>
                 </div>
-                <Link type="submit" className="checkout__submit" to="/shop/complete" onClick={sendToServer}>Place Order</Link>
+                <Link type="submit" className="checkout__submit" onClick={sendToServer}>Place Order</Link>
             </div>
         </div>
     </div>

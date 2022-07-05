@@ -17,7 +17,10 @@ let ValidationPipe = class ValidationPipe {
             const errors = await (0, class_validator_1.validate)(obj);
             if (errors.length) {
                 const messages = errors.map((error) => {
-                    return `${error.property} - ${Object.values(error.constraints).join(', ')}`;
+                    if (error.constraints)
+                        return `${error.property} - ${Object.values(error.constraints).join(', ')}`;
+                    else
+                        return `${error.property} - ${error.constraints}`;
                 });
                 throw new common_1.HttpException(messages, common_1.HttpStatus.BAD_REQUEST);
             }
