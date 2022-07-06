@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const orders_service_1 = require("./orders.service");
 const orders_controller_1 = require("./orders.controller");
 const order_schema_1 = require("./schemas/order.schema");
+const microservices_1 = require("@nestjs/microservices");
 let OdersModule = class OdersModule {
 };
 OdersModule = __decorate([
@@ -24,6 +25,19 @@ OdersModule = __decorate([
                     name: 'orders',
                     useFactory: () => order_schema_1.OrderSchema,
                 }
+            ]),
+            microservices_1.ClientsModule.register([
+                {
+                    name: 'MAIN',
+                    transport: microservices_1.Transport.RMQ,
+                    options: {
+                        urls: ['amqp://pizza:pizza@localhost:5672'],
+                        queue: 'telegram-orders',
+                        queueOptions: {
+                            durable: true
+                        },
+                    },
+                },
             ]),
         ],
     })

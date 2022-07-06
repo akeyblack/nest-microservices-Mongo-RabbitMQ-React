@@ -1,12 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { OrderDto } from './dto/order.dto';
+import { TgService } from './telegram/telegram.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly tgService: TgService,
+  ) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @MessagePattern('create-order')
+  createOrder(@Payload() data: OrderDto): void {
+    console.log(data);
+    this.tgService.checkForNewUsers();
+    this.tgService.sendOrdersToTelegramUsers(data)
+    .then(res => console.log(res));
   }
 }

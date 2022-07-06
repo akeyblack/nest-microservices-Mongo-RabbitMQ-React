@@ -17,12 +17,16 @@ const common_1 = require("@nestjs/common");
 const orders_service_1 = require("./orders.service");
 const create_order_dto_1 = require("./dto/create-order.dto");
 const validation_pipe_1 = require("../pipes/validation.pipe");
+const microservices_1 = require("@nestjs/microservices");
 let OrdersController = class OrdersController {
-    constructor(ordersService) {
+    constructor(ordersService, client) {
         this.ordersService = ordersService;
+        this.client = client;
     }
     async createOrder(orderDto) {
-        return this.ordersService.create(orderDto);
+        const result = await this.ordersService.create(orderDto);
+        this.client.send('create-order', new microservices_1.RmqRecord(result)).subscribe();
+        return result;
     }
     async getOrders() {
         return JSON.stringify(await this.ordersService.getAllOrders(), null, "\t");
@@ -44,7 +48,9 @@ __decorate([
 ], OrdersController.prototype, "getOrders", null);
 OrdersController = __decorate([
     (0, common_1.Controller)('orders'),
-    __metadata("design:paramtypes", [orders_service_1.OrdersService])
+    __param(1, (0, common_1.Inject)('MAIN')),
+    __metadata("design:paramtypes", [orders_service_1.OrdersService,
+        microservices_1.ClientProxy])
 ], OrdersController);
 exports.OrdersController = OrdersController;
 //# sourceMappingURL=orders.controller.js.map
