@@ -15,6 +15,6 @@ export const config = () => ({
   telegram: env.TELEGRAM,
   telegramSecretPhrase: env.TELEGRAM_SECRET_PHRASE,
   database: {
-    uri: env.uri ?? "mongodb://pizza:pizza@localhost:27017/",
+    uri: env.MONGO_URI ?? "mongodb://pizza:pizza@localhost:27017/",
   },
 });

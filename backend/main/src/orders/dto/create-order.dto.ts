@@ -43,5 +43,10 @@ export class OrderDto {
   @ValidateNested()
   @Type(() => DeliveryInfo)
   deliveryInfo: DeliveryInfo;
-  items: [];
+  items: [{
+    id: number,
+    name: string,
+    size: number,
+    count: number,
+  }];
 }

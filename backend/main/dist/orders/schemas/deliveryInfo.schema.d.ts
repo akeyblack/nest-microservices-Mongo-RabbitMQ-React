@@ -22,13 +22,14 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
-import { DeliveryInfo } from './deliveryInfo.schema';
-export declare class Order extends Document {
-    cartSum: number;
-    moneyType: string;
-    deliveryType: string;
-    deliveryCost: number;
-    deliveryInfo: DeliveryInfo;
-    items: [];
+export declare class DeliveryInfo extends Document {
+    telegram: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    phone: string;
+    companyName: string;
+    email: string;
+    notes: string;
 }
-export declare const OrderSchema: import("mongoose").Schema<Order, import("mongoose").Model<Order, any, any, any, any>, {}, {}, any, {}, "type", Order>;
+export declare const DeliveryInfoSchema: import("mongoose").Schema<DeliveryInfo, import("mongoose").Model<DeliveryInfo, any, any, any, any>, {}, {}, any, {}, "type", DeliveryInfo>;

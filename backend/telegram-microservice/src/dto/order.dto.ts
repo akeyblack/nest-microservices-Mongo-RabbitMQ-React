@@ -16,5 +16,10 @@ export class OrderDto {
   deliveryType: boolean;
   deliveryCost: number;
   deliveryInfo: DeliveryInfo;
-  items: [];
+  items: [{
+    id: number,
+    name: string,
+    size: number,
+    count: number,
+  }];
 }

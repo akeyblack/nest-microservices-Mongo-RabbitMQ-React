@@ -11,9 +11,7 @@ export class AppController {
 
   @MessagePattern('create-order')
   createOrder(@Payload() data: OrderDto): void {
-    console.log(data);
     this.tgService.checkForNewUsers();
-    this.tgService.sendOrdersToTelegramUsers(data)
-    .then(res => console.log(res));
+    this.tgService.sendOrdersToTelegramUsers(data);
   }
 }

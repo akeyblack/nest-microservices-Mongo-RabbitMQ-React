@@ -34,7 +34,7 @@ export class TgService {
     const users = await this.telegramUserModel.find().exec();
     users.forEach(el => {
       this.telegram.sendMessage({
-        text: orderDto.cartSum.toString(),
+        text: this.formatOrder(orderDto),
         chat_id: el.chatId,
       }).toPromise()
     });
@@ -54,5 +54,30 @@ export class TgService {
       chatId,
     });
     return telegramUser.save();
+  }
+
+  private formatOrder(orderDto: OrderDto): string {
+    console.log(orderDto);
+    let str = "";
+    str += "Price of items: " + orderDto.cartSum + "₴.\n\n";
+    str += "Items: \n";
+    orderDto.items.forEach(el => {                       
+      str += el.name + ((el.count > 1) ? " x" + el.count: "");
+      str += ".\n";
+      str += "Size: " + el.size + ".\n";
+    });
+    str += "\n";
+    str += "Money: " + (orderDto.moneyType ? "by card": "in cash");
+    str += ".\n";
+    str += "Delivery: " + (orderDto.deliveryType ? "no" : "delivery with a cost of " + orderDto.deliveryCost + "₴");
+    str += ".\n";
+    str += "Name: " + orderDto.deliveryInfo.firstName + " " + orderDto.deliveryInfo.lastName;
+    str += ".\n";
+    str += "Phone: " + orderDto.deliveryInfo.phone + ".\n";
+    str += "Address: " + orderDto.deliveryInfo.address + ".\n";
+    str += orderDto.deliveryInfo.email ? "Email: " + orderDto.deliveryInfo.email + ".\n": "";
+    str += orderDto.deliveryInfo.telegram ? "Telegram: " + orderDto.deliveryInfo.telegram + ".\n": "";
+    str += orderDto.deliveryInfo.notes ? "Notes:\n" + orderDto.deliveryInfo.notes + ".\n": "";
+    return str;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {connect} from 'react-redux';
 import { Redirect, Link, useHistory } from 'react-router-dom';
 import config from '../../config';
@@ -16,18 +16,17 @@ function Checkout (props) {
     const [errorState, setErrorState] = useState(false);
 
     const [delInfo, setDelInfo] = useState({
-        telegram: " ",
-        firstName: " ",
-        lastName: " ",
-        address: " ",
-        phone: " ",
-        companyName: " ",
-        email: " ",
-        notes: " ",
+        telegram: "",
+        firstName: "",
+        lastName: "",
+        address: "",
+        phone: "",
+        companyName: "",
+        email: "",
+        notes: "",
     });
 
     const sendToServer = () => {
-        console.log(delInfo);
         setDeliveryInfo(delInfo);
         const body = {
             cartSum: props.cartSum,

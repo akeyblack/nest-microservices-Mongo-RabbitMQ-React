@@ -10,36 +10,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderSchema = exports.Order = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-let Order = class Order {
+const mongoose_1 = require("mongoose");
+const mongoose_2 = require("@nestjs/mongoose");
+const deliveryInfo_schema_1 = require("./deliveryInfo.schema");
+let Order = class Order extends mongoose_1.Document {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_2.Prop)({ required: true }),
     __metadata("design:type", Number)
 ], Order.prototype, "cartSum", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_2.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Order.prototype, "moneyType", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_2.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Order.prototype, "deliveryType", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_2.Prop)({ required: true }),
     __metadata("design:type", Number)
 ], Order.prototype, "deliveryCost", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Array)
+    (0, mongoose_2.Prop)({ required: true, type: deliveryInfo_schema_1.DeliveryInfo }),
+    __metadata("design:type", deliveryInfo_schema_1.DeliveryInfo)
 ], Order.prototype, "deliveryInfo", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_2.Prop)({ required: true }),
     __metadata("design:type", Array)
 ], Order.prototype, "items", void 0);
 Order = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_2.Schema)()
 ], Order);
 exports.Order = Order;
-exports.OrderSchema = mongoose_1.SchemaFactory.createForClass(Order);
+exports.OrderSchema = mongoose_2.SchemaFactory.createForClass(Order);
 //# sourceMappingURL=order.schema.js.map

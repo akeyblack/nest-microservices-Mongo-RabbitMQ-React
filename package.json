@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "concurrently": "^7.2.2"
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others --names \"BACKEND_MAIN,BACKEND_RABBITMQ,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold,bgRed.bold\" \"npm run start:dev --prefix ./backend/main\" \"npm run start:dev --prefix ./backend/telegram-microservice\" \"npm run star --prefix ./frontend\""
+  }
+}

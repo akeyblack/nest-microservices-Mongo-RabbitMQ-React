@@ -1,10 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-
-export type OrderDocument = Order & Document;
+import { DeliveryInfo } from './deliveryInfo.schema';
 
 @Schema()
-export class Order {
+export class Order extends Document {
   @Prop({ required: true })
   cartSum: number;
 
@@ -17,8 +16,8 @@ export class Order {
   @Prop({ required: true })
   deliveryCost: number;
 
-  @Prop({ required: true })
-  deliveryInfo: [];
+  @Prop({ required: true, type: DeliveryInfo })
+  deliveryInfo: DeliveryInfo
 
   @Prop({ required: true })
   items: [];
